@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from "./components/Home";
 import LogIn from "./components/LogIn";
 import RecipesList from "./components/RecipesList";
@@ -21,41 +21,43 @@ class App extends Component {
     fetch(`http://localhost:3000/recipes`)
       .then(r => r.json())
       .then(json => {
+        let alpha = json.sort(function(a, b) {
+          return a.title.localeCompare(b.title);
+        });
+
         this.setState({
-          recipes: json
+          recipes: alpha
         });
       });
   };
 
   render() {
+    const recipes = this.state.recipes;
     return (
-      <Router>
-        <div>
-          <Navbar />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={LogIn} />
-          <Route
-            exact
-            path="/recipes"
-            render={props => (
-              <RecipesList {...props} recipes={this.state.recipes} />
-            )}
-          />
-          <Route exact path="/cookbook" component={MyCookbook} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route
-            path="/recipes/:id"
-            render={data => {
-              let recipes = this.state.recipes;
-              // debugger;
-              let selectedRecipe = this.state.recipes.find(
-                recipe => recipe.id === parseInt(data.match.params.id)
-              );
-              return <Recipe recipe={selectedRecipe} />;
-            }}
-          />
-        </div>
-      </Router>
+      <div>
+        <Navbar />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={LogIn} />
+        <Route
+          exact
+          path="/recipes"
+          render={props => (
+            <RecipesList {...props} recipes={this.state.recipes} />
+          )}
+        />
+        <Route exact path="/cookbook" component={MyCookbook} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route
+          path="/recipes/:id"
+          render={data => {
+            debugger;
+            let selectedRecipe = recipes.find(
+              recipe => recipe.id === parseInt(data.match.params.id)
+            );
+            return <Recipe recipe={selectedRecipe} />;
+          }}
+        />
+      </div>
     );
   }
 }

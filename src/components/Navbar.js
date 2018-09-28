@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, Icon } from "semantic-ui-react";
 
-const Navbar = props => {
+const Navbar = ({ loggedIn, logout }) => {
   return (
     <Menu>
       <Menu.Item>
@@ -16,16 +16,16 @@ const Navbar = props => {
           Recipes
         </NavLink>
       </Menu.Item>
-      <Menu.Item>
-        <NavLink to="/cookbook" exact>
-          My Cookbook
-        </NavLink>
-      </Menu.Item>
-      <Menu.Item>
-        <NavLink to="/login" exact>
-          Login
-        </NavLink>
-      </Menu.Item>
+      {loggedIn ? (
+        <React.Fragment>
+          <Menu.Item as={NavLink} to="/cookbook" name="Profile" />
+          <Menu.Menu position="right">
+            <Menu.Item to="/logout" name="Logout" onClick={logout} />
+          </Menu.Menu>
+        </React.Fragment>
+      ) : (
+        <Menu.Item as={NavLink} to="/login" name="Login" />
+      )}
     </Menu>
   );
 };

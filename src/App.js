@@ -11,10 +11,26 @@ import Recipe from "./components/Recipe";
 class App extends Component {
   state = {
     recipes: [],
-    loaded: false
+    loaded: false,
+    userInfo: null
   };
 
+  updateUserInfo = userInfo => this.setState({ userInfo });
+
   componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch(`http://localhost:3000/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(r => r.json())
+        .then(json => {
+          this.updateUserInfo(json.user);
+          // this.props.history.push("/profile");
+        });
+    }
     fetch(`http://localhost:3000/recipes`)
       .then(r => r.json())
       .then(json => {
@@ -27,12 +43,21 @@ class App extends Component {
       });
   }
 
+  logout = () => {
+    localStorage.clear();
+    this.setState({ userInfo: null });
+  };
+
   content() {
     return (
       <div>
-        <Navbar />
+        <Navbar loggedIn={!!this.state.userInfo} logout={this.logout} />
         <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={LogIn} />
+        <Route
+          exact
+          path="/login"
+          render={() => <LogIn updateUserInfo={this.updateUserInfo} />}
+        />
         <Route
           exact
           path="/recipes"
@@ -41,7 +66,11 @@ class App extends Component {
           )}
         />
         <Route exact path="/cookbook" component={MyCookbook} />
-        <Route exact path="/signup" component={SignUp} />
+        <Route
+          exact
+          path="/signup"
+          render={() => <SignUp updateUserInfo={this.updateUserInfo} />}
+        />
         <Route
           path="/recipes/:id"
           render={data => {

@@ -10,29 +10,24 @@ import Recipe from "./components/Recipe";
 
 class App extends Component {
   state = {
-    recipes: []
+    recipes: [],
+    loaded: false
   };
 
   componentDidMount() {
-    this.fetchRecipes();
-  }
-
-  fetchRecipes = () => {
     fetch(`http://localhost:3000/recipes`)
       .then(r => r.json())
       .then(json => {
-        let alpha = json.sort(function(a, b) {
-          return a.title.localeCompare(b.title);
-        });
-
         this.setState({
-          recipes: alpha
+          recipes: json.sort(function(a, b) {
+            return a.title.localeCompare(b.title);
+          }),
+          loaded: true
         });
       });
-  };
+  }
 
-  render() {
-    const recipes = this.state.recipes;
+  content() {
     return (
       <div>
         <Navbar />
@@ -50,15 +45,18 @@ class App extends Component {
         <Route
           path="/recipes/:id"
           render={data => {
-            debugger;
-            let selectedRecipe = recipes.find(
+            let selectedRecipe = this.state.recipes.find(
               recipe => recipe.id === parseInt(data.match.params.id)
             );
-            return <Recipe recipe={selectedRecipe} />;
+            return <Recipe recipes recipe={selectedRecipe} />;
           }}
         />
       </div>
     );
+  }
+
+  render() {
+    return <div>{this.state.loaded ? this.content() : null}</div>;
   }
 }
 

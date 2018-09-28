@@ -45,14 +45,14 @@ class RecipesList extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    const { match, recipes } = this.props;
+    const { match, recipes, history } = this.props;
+    console.log(history);
     return (
       <div>
-        {/* <Route
-          path="/recipes/:id"
+        {/* Does not work because the route only exists if we render RecipesList
+          <Route
+          path={`recipes/:id`}
           render={match => {
-            debugger;
             let selectedRecipe = recipes.find(
               recipe => recipe.id === parseInt(match.params.id)
             );

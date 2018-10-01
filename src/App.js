@@ -12,10 +12,14 @@ class App extends Component {
   state = {
     recipes: [],
     loaded: false,
-    userInfo: null
+    userInfo: null,
+    userRecipes: []
   };
 
-  updateUserInfo = userInfo => this.setState({ userInfo });
+  updateUserInfo = userInfo => {
+    this.setState({ userInfo });
+    this.currentUserRecipes();
+  };
 
   componentDidMount() {
     const token = localStorage.getItem("token");
@@ -27,8 +31,8 @@ class App extends Component {
       })
         .then(r => r.json())
         .then(json => {
+          console.log(json);
           this.updateUserInfo(json.user);
-          // this.props.history.push("/profile");
         });
     }
     fetch(`http://localhost:3000/recipes`)
@@ -48,6 +52,41 @@ class App extends Component {
     this.setState({ userInfo: null });
   };
 
+  addFavorite = recipe => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/user_recipes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        recipe_id: recipe.id,
+        user_id: this.state.userInfo.id
+      })
+    })
+      .then(r => r.json())
+      .then(json => console.log(json));
+  };
+
+  currentUserRecipes = () => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/user_recipes`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(r => r.json())
+      .then(json => {
+        this.setState({
+          userRecipes: json.filter(
+            userRecipe => userRecipe.user_id === this.state.userInfo.id
+          )
+        });
+      });
+  };
+
   content() {
     return (
       <div>
@@ -65,7 +104,16 @@ class App extends Component {
             <RecipesList {...props} recipes={this.state.recipes} />
           )}
         />
-        <Route exact path="/cookbook" component={MyCookbook} />
+        <Route
+          exact
+          path="/cookbook"
+          render={() => (
+            <MyCookbook
+              currentUserRecipes={this.state.userRecipes}
+              allRecipes={this.state.recipes}
+            />
+          )}
+        />
         <Route
           exact
           path="/signup"
@@ -77,7 +125,14 @@ class App extends Component {
             let selectedRecipe = this.state.recipes.find(
               recipe => recipe.id === parseInt(data.match.params.id)
             );
-            return <Recipe recipes recipe={selectedRecipe} />;
+            return (
+              <Recipe
+                recipes
+                recipe={selectedRecipe}
+                addFavorite={this.addFavorite}
+                userRecipes={this.state.userRecipes}
+              />
+            );
           }}
         />
       </div>

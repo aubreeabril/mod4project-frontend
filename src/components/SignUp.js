@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Input, Form } from "semantic-ui-react";
-import { NavLink, Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class SignUp extends React.Component {
   state = {

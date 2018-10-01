@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Input, Form } from "semantic-ui-react";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 class LogIn extends React.Component {

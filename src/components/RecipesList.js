@@ -88,7 +88,11 @@ class RecipesList extends React.Component {
           <ul>
             {this.searchResults(this.handleFilters()).map(r => (
               <li key={r.id}>
-                <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                {this.props.loggedIn ? (
+                  <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                ) : (
+                  <p>{r.title}</p>
+                )}
               </li>
             ))}
           </ul>
@@ -96,7 +100,11 @@ class RecipesList extends React.Component {
           <ul>
             {this.handleFilters().map(r => (
               <li key={r.id}>
-                <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                {this.props.loggedIn ? (
+                  <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                ) : (
+                  <p>{r.title}</p>
+                )}
               </li>
             ))}
           </ul>

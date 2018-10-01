@@ -31,7 +31,6 @@ class App extends Component {
       })
         .then(r => r.json())
         .then(json => {
-          console.log(json);
           this.updateUserInfo(json.user);
         });
     }
@@ -67,7 +66,25 @@ class App extends Component {
       })
     })
       .then(r => r.json())
-      .then(json => console.log(json));
+      .then(json => {
+        this.currentUserRecipes();
+      });
+  };
+
+  removeFavorite = recipe => {
+    let userRecipe = this.state.userRecipes.find(
+      ur => ur.recipe_id === recipe.id
+    );
+
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(r => r.json())
+      .then(json => this.currentUserRecipes());
   };
 
   currentUserRecipes = () => {
@@ -87,6 +104,25 @@ class App extends Component {
       });
   };
 
+  addNote = (noteInput, recipe) => {
+    let userRecipe = this.state.userRecipes.find(
+      ur => ur.recipe_id === recipe.id
+    );
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        note: noteInput
+      })
+    })
+      .then(r => r.json())
+      .then(json => this.currentUserRecipes());
+  };
+
   content() {
     return (
       <div>
@@ -101,7 +137,11 @@ class App extends Component {
           exact
           path="/recipes"
           render={props => (
-            <RecipesList {...props} recipes={this.state.recipes} />
+            <RecipesList
+              {...props}
+              recipes={this.state.recipes}
+              loggedIn={!!this.state.userInfo}
+            />
           )}
         />
         <Route
@@ -129,6 +169,8 @@ class App extends Component {
               <Recipe
                 recipes
                 recipe={selectedRecipe}
+                removeFavorite={this.removeFavorite}
+                addNote={this.addNote}
                 addFavorite={this.addFavorite}
                 userRecipes={this.state.userRecipes}
               />

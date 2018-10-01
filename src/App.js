@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { withRouter, Route } from "react-router-dom";
 import Home from "./components/Home";
 import LogIn from "./components/LogIn";
 import RecipesList from "./components/RecipesList";
@@ -49,6 +49,7 @@ class App extends Component {
   logout = () => {
     localStorage.clear();
     this.setState({ userInfo: null });
+    this.props.history.push("/recipes");
   };
 
   addFavorite = recipe => {
@@ -186,4 +187,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

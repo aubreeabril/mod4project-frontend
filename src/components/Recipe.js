@@ -1,36 +1,14 @@
 import React from "react";
-import { Header, Icon, Button, Modal, Form } from "semantic-ui-react";
+import { Header, Icon, Button } from "semantic-ui-react";
+import Note from "./Note";
 
 class Recipe extends React.Component {
-  state = {
-    noteInput: "",
-    modalOpen: false
-  };
-
-  handleChange = e => {
-    this.setState({
-      noteInput: e.target.value
-    });
-  };
-
-  handleClick = (e, recipe) => {
-    this.handleClose();
-
-    this.props.addNote(this.state.noteInput, this.props.recipe);
-  };
-
-  handleOpen = () => this.setState({ modalOpen: true });
-
-  handleClose = () =>
-    this.setState({
-      modalOpen: false
-    });
-
   render() {
     let userRecipes = this.props.userRecipes;
     let addFavorite = this.props.addFavorite;
     let recipe = this.props.recipe;
     let removeFavorite = this.props.removeFavorite;
+    let addNote = this.props.addNote;
 
     return (
       <React.Fragment>
@@ -65,24 +43,7 @@ class Recipe extends React.Component {
         </ul>
 
         {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
-          <Modal
-            trigger={<Button onClick={this.handleOpen}>Add note</Button>}
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-          >
-            <Header content={`Add note to ${recipe.title}`} />
-            <Form>
-              <Form.Field>
-                <textarea placeholder="Note" onChange={this.handleChange} />
-              </Form.Field>
-            </Form>
-            <Modal.Actions>
-              <Button basic color="green" onClick={this.handleClick}>
-                <Icon name="save" />
-                Save
-              </Button>
-            </Modal.Actions>
-          </Modal>
+          <Note recipe={recipe} addNote={addNote} userRecipes={userRecipes} />
         ) : null}
       </React.Fragment>
     );

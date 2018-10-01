@@ -5,20 +5,17 @@ import { Menu, Icon } from "semantic-ui-react";
 const Navbar = ({ loggedIn, logout }) => {
   return (
     <Menu>
-      <Menu.Item>
-        <Icon name="food" size="big" />
-        <NavLink to="/" exact>
-          <h1>CookBook</h1>
-        </NavLink>
+      <Menu.Item as={NavLink} to="/" exact>
+        <h1>
+          <Icon name="food" />CookBook
+        </h1>
       </Menu.Item>
-      <Menu.Item>
-        <NavLink to="/recipes" exact>
-          Recipes
-        </NavLink>
+      <Menu.Item as={NavLink} to="/recipes" exact>
+        Recipes
       </Menu.Item>
       {loggedIn ? (
         <React.Fragment>
-          <Menu.Item as={NavLink} to="/cookbook" name="Profile" />
+          <Menu.Item as={NavLink} to="/cookbook" name="My Cookbook" />
           <Menu.Menu position="right">
             <Menu.Item to="/logout" name="Logout" onClick={logout} />
           </Menu.Menu>

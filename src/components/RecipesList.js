@@ -39,26 +39,22 @@ class RecipesList extends React.Component {
   };
 
   searchResults = recipes => {
-    return recipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())
-    );
+    let searches = this.state.searchTerm.toLowerCase().split(" ");
+    return recipes.filter(recipe => {
+      let valid = true;
+      for (let i = 0; i < searches.length; i++) {
+        if (recipe.title.toLowerCase().indexOf(searches[i]) === -1) {
+          valid = false;
+        }
+      }
+      return valid;
+    });
   };
 
   render() {
     const { match, recipes, history } = this.props;
-    console.log(history);
     return (
       <div>
-        {/* Does not work because the route only exists if we render RecipesList
-          <Route
-          path={`recipes/:id`}
-          render={match => {
-            let selectedRecipe = recipes.find(
-              recipe => recipe.id === parseInt(match.params.id)
-            );
-            return <Recipe recipe={selectedRecipe} />;
-          }}
-        /> */}
         <Input placeholder="search" onChange={this.handleChange} />
         <Checkbox
           toggle

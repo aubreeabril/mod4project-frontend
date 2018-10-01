@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Input, Form } from "semantic-ui-react";
 import { NavLink, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class LogIn extends React.Component {
   state = {
@@ -13,7 +14,6 @@ class LogIn extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log(this.props);
     const url = "http://localhost:3000/login";
     const params = {
       username: this.state.username,
@@ -31,7 +31,7 @@ class LogIn extends React.Component {
       .then(response => {
         localStorage.setItem("token", response.jwt);
         this.props.updateUserInfo(response.user);
-        return <Redirect to="/cookbook" />;
+        this.props.history.push("/cookbook");
       });
   };
 
@@ -66,4 +66,4 @@ class LogIn extends React.Component {
   }
 }
 
-export default LogIn;
+export default withRouter(LogIn);

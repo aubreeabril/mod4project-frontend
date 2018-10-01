@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Input, Form } from "semantic-ui-react";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Redirect, withRouter } from "react-router-dom";
 
 class SignUp extends React.Component {
   state = {
@@ -30,7 +30,7 @@ class SignUp extends React.Component {
       .then(response => {
         localStorage.setItem("token", response.token);
         this.props.updateUserInfo(response.user);
-        // return <Redirect to="/cookbook" />;
+        this.props.history.push("/cookbook");
       });
   };
 
@@ -62,4 +62,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

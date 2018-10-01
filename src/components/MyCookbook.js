@@ -14,7 +14,9 @@ class MyCookbook extends React.Component {
       <React.Fragment>
         <h1>My CookBook</h1>
         <Card.Group>
-          {this.getRecipes().map(recipe => <RecipeCard recipe={recipe} />)}
+          {this.getRecipes().map(recipe => (
+            <RecipeCard key={recipe.id} recipe={recipe} />
+          ))}
         </Card.Group>
       </React.Fragment>
     );

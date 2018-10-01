@@ -7,6 +7,7 @@ import MyCookbook from "./components/MyCookbook";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
 import Recipe from "./components/Recipe";
+import NewRecipe from "./components/NewRecipe";
 
 class App extends Component {
   state = {
@@ -97,11 +98,13 @@ class App extends Component {
     })
       .then(r => r.json())
       .then(json => {
-        this.setState({
-          userRecipes: json.filter(
-            userRecipe => userRecipe.user_id === this.state.userInfo.id
-          )
-        });
+        if (this.state.userInfo) {
+          this.setState({
+            userRecipes: json.filter(
+              userRecipe => userRecipe.user_id === this.state.userInfo.id
+            )
+          });
+        }
       });
   };
 
@@ -122,6 +125,26 @@ class App extends Component {
     })
       .then(r => r.json())
       .then(json => this.currentUserRecipes());
+  };
+
+  addNewRecipe = newRecipe => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/recipes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(newRecipe)
+    })
+      .then(r => r.json())
+      .then(json => {
+        this.setState({
+          recipes: [...this.state.recipes, json]
+        });
+        this.props.history.push(`/recipes/${json.id}`);
+      });
   };
 
   content() {
@@ -157,6 +180,16 @@ class App extends Component {
         />
         <Route
           exact
+          path="/newrecipe"
+          render={() => (
+            <NewRecipe
+              userInfo={this.state.userInfo}
+              addNewRecipe={this.addNewRecipe}
+            />
+          )}
+        />
+        <Route
+          exact
           path="/signup"
           render={() => <SignUp updateUserInfo={this.updateUserInfo} />}
         />
@@ -164,7 +197,7 @@ class App extends Component {
           path="/recipes/:id"
           render={data => {
             let selectedRecipe = this.state.recipes.find(
-              recipe => recipe.id === parseInt(data.match.params.id)
+              recipe => recipe.id === parseInt(data.match.params.id, 10)
             );
             return (
               <Recipe

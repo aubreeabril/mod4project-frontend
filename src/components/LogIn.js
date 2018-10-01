@@ -1,12 +1,13 @@
 import React from "react";
-import { Button, Input, Form } from "semantic-ui-react";
+import { Button, Input, Form, Message } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 class LogIn extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    errorMessage: ""
   };
 
   handleChange = (e, { name, value }) => {
@@ -31,7 +32,13 @@ class LogIn extends React.Component {
       .then(response => {
         localStorage.setItem("token", response.jwt);
         this.props.updateUserInfo(response.user);
-        this.props.history.push("/cookbook");
+        if (response.jwt) {
+          this.props.history.push("/cookbook");
+        } else {
+          this.setState({
+            errorMessage: response.message
+          });
+        }
       });
   };
 
@@ -39,6 +46,11 @@ class LogIn extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <h2>Log In</h2>
+        {this.state.errorMessage ? (
+          <Message negative>
+            <Message.Header>{this.state.errorMessage}</Message.Header>
+          </Message>
+        ) : null}
         <Form.Field inline>
           <label>Username</label>
           <Input
@@ -53,6 +65,7 @@ class LogIn extends React.Component {
           <Input
             width={8}
             name="password"
+            type="password"
             value={this.state.password}
             onChange={this.handleChange}
           />

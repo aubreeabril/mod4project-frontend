@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Icon, Button } from "semantic-ui-react";
+import { Header, Icon } from "semantic-ui-react";
 import Note from "./Note";
 
 class Recipe extends React.Component {

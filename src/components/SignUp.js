@@ -52,6 +52,7 @@ class SignUp extends React.Component {
           <Input
             width={8}
             name="password"
+            type="password"
             value={this.state.password}
             onChange={this.handleChange}
           />

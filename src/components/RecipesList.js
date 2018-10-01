@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
-import Recipe from "./Recipe";
+import { Link } from "react-router-dom";
 import { Input, Checkbox } from "semantic-ui-react";
 
 class RecipesList extends React.Component {
@@ -52,7 +51,6 @@ class RecipesList extends React.Component {
   };
 
   render() {
-    const { match, recipes, history } = this.props;
     return (
       <div>
         <Input placeholder="search" onChange={this.handleChange} />

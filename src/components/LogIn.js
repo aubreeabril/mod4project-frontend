@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, Form, Message } from "semantic-ui-react";
+import { Button, Input, Form, Message, Container } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
@@ -44,37 +44,39 @@ class LogIn extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <h2>Log In</h2>
-        {this.state.errorMessage ? (
-          <Message negative>
-            <Message.Header>{this.state.errorMessage}</Message.Header>
-          </Message>
-        ) : null}
-        <Form.Field inline>
-          <label>Username</label>
-          <Input
-            width={8}
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field inline>
-          <label>Password</label>
-          <Input
-            width={8}
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Button type="submit">Log In</Button>
-        <NavLink to="/signup" exact>
-          Sign Up
-        </NavLink>
-      </Form>
+      <Container textAlign="center" color="red">
+        <Form onSubmit={this.handleSubmit}>
+          <h2>Log In</h2>
+          {this.state.errorMessage ? (
+            <Message negative>
+              <Message.Header>{this.state.errorMessage}</Message.Header>
+            </Message>
+          ) : null}
+          <Form.Field inline>
+            <label>Username</label>
+            <Input
+              width={8}
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+          <Form.Field inline>
+            <label>Password</label>
+            <Input
+              width={8}
+              name="password"
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+          <Button type="submit">Log In</Button>
+          <NavLink to="/signup" exact>
+            Sign Up
+          </NavLink>
+        </Form>
+      </Container>
     );
   }
 }

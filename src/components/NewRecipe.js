@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Checkbox } from "semantic-ui-react";
+import { Button, Form, Checkbox, Container } from "semantic-ui-react";
 
 class NewRecipe extends React.Component {
   state = {
@@ -87,69 +87,71 @@ class NewRecipe extends React.Component {
 
   render() {
     return (
-      <Form>
-        <h3>Add a new recipe:</h3>
-        <Form.Field width={8}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            onChange={this.handleChange}
+      <Container>
+        <Form>
+          <h3>Add a new recipe:</h3>
+          <Form.Field width={8}>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+          <Form.Field width={3}>
+            <input
+              type="number"
+              min={1}
+              name="yield"
+              placeholder="Servings"
+              onChange={this.handleNumberChange}
+            />
+          </Form.Field>
+          <Form.Field width={8}>
+            <input
+              type="text"
+              name="image"
+              placeholder="Image url"
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+          <Form.Field
+            control={Checkbox}
+            label="low sugar"
+            value="Sugar-Conscious"
+            onChange={this.handleCheckboxes}
           />
-        </Form.Field>
-        <Form.Field width={3}>
-          <input
-            type="number"
-            min={1}
-            name="yield"
-            placeholder="Servings"
-            onChange={this.handleNumberChange}
+          <Form.Field
+            control={Checkbox}
+            label="peanut free"
+            value="Peanut-Free"
+            onChange={this.handleCheckboxes}
           />
-        </Form.Field>
-        <Form.Field width={8}>
-          <input
-            type="text"
-            name="image"
-            placeholder="Image url"
-            onChange={this.handleChange}
+          <Form.Field
+            control={Checkbox}
+            label="tree nut free"
+            value="Tree-Nut-Free"
+            onChange={this.handleCheckboxes}
           />
-        </Form.Field>
-        <Form.Field
-          control={Checkbox}
-          label="low sugar"
-          value="Sugar-Conscious"
-          onChange={this.handleCheckboxes}
-        />
-        <Form.Field
-          control={Checkbox}
-          label="peanut free"
-          value="Peanut-Free"
-          onChange={this.handleCheckboxes}
-        />
-        <Form.Field
-          control={Checkbox}
-          label="tree nut free"
-          value="Tree-Nut-Free"
-          onChange={this.handleCheckboxes}
-        />
-        <Form.Field
-          control={Checkbox}
-          label="alcohol free"
-          value="Alcohol-Free"
-          onChange={this.handleCheckboxes}
-        />
-        {this.renderIngredientForms()}
-        <Button
-          icon="plus"
-          onClick={this.increaseIngredients}
-          content="More ingredients"
-        />
-        <Button
-          type="submit"
-          content="Submit new recipe"
-          onClick={() => this.props.addNewRecipe(this.state.newRecipe)}
-        />
-      </Form>
+          <Form.Field
+            control={Checkbox}
+            label="alcohol free"
+            value="Alcohol-Free"
+            onChange={this.handleCheckboxes}
+          />
+          {this.renderIngredientForms()}
+          <Button
+            icon="plus"
+            onClick={this.increaseIngredients}
+            content="More ingredients"
+          />
+          <Button
+            type="submit"
+            content="Submit new recipe"
+            onClick={() => this.props.addNewRecipe(this.state.newRecipe)}
+          />
+        </Form>
+      </Container>
     );
   }
 }

@@ -192,7 +192,7 @@ class App extends Component {
         />
         <Route
           exact
-          path="/cookbook/:id"
+          path="/cookbook"
           render={() => (
             <MyCookbook
               currentUserRecipes={this.state.userRecipes}

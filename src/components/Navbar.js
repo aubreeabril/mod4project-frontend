@@ -15,11 +15,7 @@ const Navbar = ({ loggedIn, logout, userInfo }) => {
       </Menu.Item>
       {loggedIn ? (
         <React.Fragment>
-          <Menu.Item
-            as={NavLink}
-            to={`/cookbook/${userInfo.id}`}
-            name="My Cookbook"
-          />
+          <Menu.Item as={NavLink} to={`/cookbook`} name="My Cookbook" />
           <Menu.Item as={NavLink} to="/newrecipe" name="Add a New Recipe" />
           <Menu.Menu position="right">
             <Menu.Item to="/logout" name="Logout" onClick={logout} />

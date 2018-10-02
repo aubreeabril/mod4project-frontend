@@ -26,3 +26,9 @@
   color: white;
   font-size: 4em;
 }
+
+.background {
+  position: fixed;
+  top: 63px;
+  background-color: gainsboro;
+}

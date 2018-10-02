@@ -15,11 +15,6 @@ class Recipe extends React.Component {
     category: null
   };
 
-  // handleClick() {
-  //   console.log("clicked");
-  //   // this.props.addFavorite(this.props.recipe);
-  // }
-
   handleChange = (e, { value }) => {
     this.setState({
       category: value

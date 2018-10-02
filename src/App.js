@@ -91,7 +91,10 @@ class App extends Component {
       }
     })
       .then(r => r.json())
-      .then(json => this.currentUserRecipes());
+      .then(json => {
+        this.currentUserRecipes();
+        this.props.history.push("/cookbook");
+      });
   };
 
   currentUserRecipes = () => {

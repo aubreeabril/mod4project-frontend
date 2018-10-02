@@ -1,6 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Input, Checkbox } from "semantic-ui-react";
+import {
+  Input,
+  Checkbox,
+  Card,
+  Image,
+  Container,
+  Segment,
+  Divider
+} from "semantic-ui-react";
+
+const right = {
+  float: "right"
+};
 
 class RecipesList extends React.Component {
   state = {
@@ -52,62 +64,102 @@ class RecipesList extends React.Component {
 
   render() {
     return (
-      <div>
-        <Input placeholder="search" onChange={this.handleChange} />
-        <Checkbox
-          toggle
-          name="Sugar-Conscious"
-          onChange={this.handleCheck}
-          value="Sugar-Conscious"
-          label={<label>Sugar conscious</label>}
+      <Container>
+        <Input
+          style={right}
+          placeholder="search"
+          onChange={this.handleChange}
+          size="large"
+          icon="search"
+          iconPosition="left"
         />
-        <Checkbox
-          toggle
-          value="Tree-Nut-Free"
-          label={<label>Tree nut free</label>}
-          onChange={this.handleCheck}
-          name="Tree-Nut-Free"
-        />
-        <Checkbox
-          toggle
-          value="Peanut-Free"
-          label={<label>Peanut free</label>}
-          onChange={this.handleCheck}
-          name="Peanut-Free"
-        />
-        <Checkbox
-          toggle
-          name="Alcohol-Free"
-          onChange={this.handleCheck}
-          value="Alcohol-Free"
-          label={<label>Alcohol free</label>}
-        />
+        <h1>All Recipes</h1>
+
+        <Segment.Group horizontal>
+          <Segment>
+            <Checkbox
+              toggle
+              name="Sugar-Conscious"
+              onChange={this.handleCheck}
+              value="Sugar-Conscious"
+              label={<label>Sugar conscious</label>}
+            />
+          </Segment>
+          <Segment>
+            <Checkbox
+              toggle
+              value="Tree-Nut-Free"
+              label={<label>Tree nut free</label>}
+              onChange={this.handleCheck}
+              name="Tree-Nut-Free"
+            />
+          </Segment>
+          <Segment>
+            <Checkbox
+              toggle
+              value="Peanut-Free"
+              label={<label>Peanut free</label>}
+              onChange={this.handleCheck}
+              name="Peanut-Free"
+            />
+          </Segment>
+          <Segment>
+            <Checkbox
+              toggle
+              name="Alcohol-Free"
+              onChange={this.handleCheck}
+              value="Alcohol-Free"
+              label={<label>Alcohol free</label>}
+            />
+          </Segment>
+        </Segment.Group>
+        <Divider />
         {this.state.searchTerm ? (
-          <ul>
+          <Card.Group>
             {this.searchResults(this.handleFilters()).map(r => (
-              <li key={r.id}>
+              <Card key={r.id}>
                 {this.props.loggedIn ? (
-                  <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                  <Card.Content>
+                    <Image floated="right" size="tiny" src={r.image} />
+                    <Link to={`/recipes/${r.id}`}>
+                      <h3>{r.title}</h3>
+                    </Link>
+                    <Card.Meta>{r.source}</Card.Meta>
+                  </Card.Content>
                 ) : (
-                  <p>{r.title}</p>
+                  <Card.Content>
+                    <Image floated="right" size="tiny" src={r.image} />
+                    <h3>{r.title}</h3>
+                    <Card.Meta>{r.source}</Card.Meta>
+                  </Card.Content>
                 )}
-              </li>
+              </Card>
             ))}
-          </ul>
+          </Card.Group>
         ) : (
-          <ul>
+          <Card.Group>
             {this.handleFilters().map(r => (
-              <li key={r.id}>
+              <Card key={r.id}>
                 {this.props.loggedIn ? (
-                  <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                  <Card.Content>
+                    <Image floated="right" size="tiny" src={r.image} />
+                    <Link to={`/recipes/${r.id}`}>
+                      <h3>{r.title}</h3>
+                    </Link>
+                    <Card.Meta>{r.source}</Card.Meta>
+                  </Card.Content>
                 ) : (
-                  <p>{r.title}</p>
+                  <Card.Content>
+                    <Image floated="right" size="tiny" src={r.image} />
+                    <h3>{r.title}</h3>
+                    <Card.Meta>{r.source}</Card.Meta>
+                  </Card.Content>
                 )}
-              </li>
+              </Card>
             ))}
-          </ul>
+          </Card.Group>
         )}
-      </div>
+      </Container>
     );
   }
 }

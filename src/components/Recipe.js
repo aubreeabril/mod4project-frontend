@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Icon } from "semantic-ui-react";
+import { Header, Icon, Container, Segment, Divider } from "semantic-ui-react";
 import Note from "./Note";
 
 class Recipe extends React.Component {
@@ -11,41 +11,59 @@ class Recipe extends React.Component {
     let addNote = this.props.addNote;
 
     return (
-      <React.Fragment>
-        <Header as="h2" content={recipe.title} />
-        <Header.Subheader as="h3">
-          From:{" "}
-          <a href={recipe.src_url} target="_blank">
-            {recipe.source}
-          </a>
-        </Header.Subheader>
+      <Container padded>
+        <Segment attached="top">
+          <Segment clearing secondary>
+            <Segment floated="right">
+              {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
+                <p>
+                  Favorited{" "}
+                  <Icon
+                    name="star"
+                    color="yellow"
+                    onClick={() => removeFavorite(recipe)}
+                  />
+                </p>
+              ) : (
+                <p>
+                  Add to cookbook{" "}
+                  <Icon
+                    name="star outline"
+                    color="grey"
+                    onClick={() => addFavorite(recipe)}
+                  />
+                </p>
+              )}
+            </Segment>
 
-        {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
-          <Icon
-            name="star"
-            color="yellow"
-            onClick={() => removeFavorite(recipe)}
-          />
-        ) : (
-          <Icon
-            name="star outline"
-            color="grey"
-            onClick={() => addFavorite(recipe)}
-          />
-        )}
+            <Header as="h2" floated="left">
+              <Header.Content>
+                {recipe.title}
+                <Header.Subheader>
+                  From:{" "}
+                  <a href={recipe.src_url} target="_blank">
+                    {recipe.source}
+                  </a>
+                </Header.Subheader>
+              </Header.Content>
+            </Header>
+          </Segment>
 
-        <Header.Subheader>Servings: {recipe.yield}</Header.Subheader>
-        <img src={recipe.image} alt={recipe.title} />
-        <ul>
-          {recipe.ingredient_lines.map(i => (
-            <li key={recipe.ingredient_lines.indexOf(i)}>{i}</li>
-          ))}
-        </ul>
+          <img src={recipe.image} alt={recipe.title} />
 
-        {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
-          <Note recipe={recipe} addNote={addNote} userRecipes={userRecipes} />
-        ) : null}
-      </React.Fragment>
+          <p>Servings: {recipe.yield}</p>
+          <ul>
+            {recipe.ingredient_lines.map(i => (
+              <li key={recipe.ingredient_lines.indexOf(i)}>{i}</li>
+            ))}
+          </ul>
+        </Segment>
+        <Segment attached="bottom">
+          {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
+            <Note recipe={recipe} addNote={addNote} userRecipes={userRecipes} />
+          ) : null}
+        </Segment>
+      </Container>
     );
   }
 }

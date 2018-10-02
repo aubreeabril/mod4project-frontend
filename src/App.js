@@ -8,18 +8,21 @@ import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
 import Recipe from "./components/Recipe";
 import NewRecipe from "./components/NewRecipe";
+import Friends from "./components/Friends";
 
 class App extends Component {
   state = {
     recipes: [],
     loaded: false,
     userInfo: null,
-    userRecipes: []
+    userRecipes: [],
+    allUsers: []
   };
 
   updateUserInfo = userInfo => {
     this.setState({ userInfo });
     this.currentUserRecipes();
+    this.getAllUsers();
   };
 
   componentDidMount() {
@@ -108,6 +111,19 @@ class App extends Component {
       });
   };
 
+  getAllUsers = () => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(r => r.json())
+      .then(json => {
+        this.setState({ allUsers: json });
+      });
+  };
+
   addNote = (noteInput, recipe) => {
     let userRecipe = this.state.userRecipes.find(
       ur => ur.recipe_id === recipe.id
@@ -150,7 +166,11 @@ class App extends Component {
   content() {
     return (
       <div>
-        <Navbar loggedIn={!!this.state.userInfo} logout={this.logout} />
+        <Navbar
+          loggedIn={!!this.state.userInfo}
+          logout={this.logout}
+          userInfo={this.state.userInfo}
+        />
         <Route exact path="/" component={Home} />
         <Route
           exact
@@ -170,11 +190,21 @@ class App extends Component {
         />
         <Route
           exact
-          path="/cookbook"
+          path="/cookbook/:id"
           render={() => (
             <MyCookbook
               currentUserRecipes={this.state.userRecipes}
               allRecipes={this.state.recipes}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/friends"
+          render={() => (
+            <Friends
+              userInfo={this.state.userInfo}
+              allUsers={this.state.allUsers}
             />
           )}
         />

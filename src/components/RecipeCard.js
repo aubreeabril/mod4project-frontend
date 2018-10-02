@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Image, Icon } from "semantic-ui-react";
+import { Card, Image, Icon, Rating } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 const colorCategories = {
@@ -34,7 +34,25 @@ const RecipeCard = ({ recipe }) => {
         <Card.Header>{recipe.title}</Card.Header>
         <Card.Meta>{recipe.source}</Card.Meta>
       </Card.Content>
+
       <Image src={recipe.image} />
+      <Card.Content extra>
+        {recipe.status === "want_to_make" ? (
+          <span>
+            <Icon name="tag" />Want To Make
+          </span>
+        ) : (
+          <span>
+            <Icon name="tag" />Made
+            <Rating
+              style={right}
+              icon="star"
+              defaultRating={recipe.rating}
+              maxRating={5}
+            />
+          </span>
+        )}
+      </Card.Content>
     </Card>
   );
 };

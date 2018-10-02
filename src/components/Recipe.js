@@ -37,6 +37,8 @@ class Recipe extends React.Component {
     let removeFavorite = this.props.removeFavorite;
     let addNote = this.props.addNote;
 
+    let userRecipe = userRecipes.find(ur => ur.recipe_id === recipe.id);
+
     return (
       <Container padded="true">
         <Segment attached="top">
@@ -46,8 +48,8 @@ class Recipe extends React.Component {
                 <p>
                   Favorited{" "}
                   <Icon
-                    name="star"
-                    color="yellow"
+                    name="heart"
+                    color="pink"
                     onClick={() => removeFavorite(recipe)}
                   />
                 </p>
@@ -58,7 +60,7 @@ class Recipe extends React.Component {
                     size="mini"
                     trigger={
                       <Icon
-                        name="star outline"
+                        name="heart outline"
                         color="grey"
                         onClick={this.handleClick}
                       />
@@ -107,7 +109,14 @@ class Recipe extends React.Component {
         </Segment>
         <Segment attached="bottom">
           {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
-            <Note recipe={recipe} addNote={addNote} userRecipes={userRecipes} />
+            <Note
+              recipe={recipe}
+              addNote={addNote}
+              userRecipes={userRecipes}
+              userRecipe={userRecipe}
+              changeStatus={this.props.changeStatus}
+              changeRating={this.props.changeRating}
+            />
           ) : null}
         </Segment>
       </Container>

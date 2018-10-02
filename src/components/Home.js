@@ -1,5 +1,4 @@
 import React from "react";
-import "../App.css";
 import { Image } from "semantic-ui-react";
 
 const Home = () => {

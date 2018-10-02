@@ -30,6 +30,8 @@ class MyCookbook extends React.Component {
         recipe => ur.recipe_id === recipe.id
       );
       matchingRecipe["category"] = ur.category;
+      matchingRecipe["status"] = ur.status;
+      matchingRecipe["rating"] = ur.rating;
       return matchingRecipe;
     });
   };

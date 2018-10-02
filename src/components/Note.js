@@ -1,11 +1,21 @@
 import React from "react";
-import { Header, Icon, Button, Modal, Form } from "semantic-ui-react";
+import {
+  Header,
+  Icon,
+  Button,
+  Modal,
+  Form,
+  Rating,
+  Grid,
+  Segment
+} from "semantic-ui-react";
 
 class Note extends React.Component {
   state = {
     noteInput: "",
     modalOpen: false,
-    editModalOpen: false
+    editModalOpen: false,
+    rating: this.props.userRecipe.rating
   };
 
   handleChange = e => {
@@ -49,15 +59,22 @@ class Note extends React.Component {
       modalOpen: false
     });
 
+  handleRating = (e, { rating }) => {
+    this.setState({
+      rating: rating
+    });
+    this.props.changeRating(this.props.userRecipe, rating);
+  };
+
   render() {
     let userRecipe = this.props.userRecipes.find(
       ur => ur.recipe_id === this.props.recipe.id
     );
 
     return (
-      <React.Fragment>
+      <Grid columns={2} divided>
         {userRecipe.note ? (
-          <div>
+          <Grid.Column>
             <h3>Note</h3>
             <p>{userRecipe.note}</p>
             <Modal
@@ -81,7 +98,7 @@ class Note extends React.Component {
                 </Button>
               </Modal.Actions>
             </Modal>
-          </div>
+          </Grid.Column>
         ) : (
           <Modal
             trigger={<Button onClick={this.handleOpen}>Add note</Button>}
@@ -102,7 +119,36 @@ class Note extends React.Component {
             </Modal.Actions>
           </Modal>
         )}
-      </React.Fragment>
+        <Grid.Column>
+          {this.props.userRecipe.status === "want_to_make" ? (
+            <Button.Group>
+              <Button positive content="Want To Make" />
+              <Button.Or />
+              <Button
+                content="Made"
+                onClick={() => this.props.changeStatus(this.props.userRecipe)}
+              />
+            </Button.Group>
+          ) : (
+            <div>
+              <Button.Group>
+                <Button disabled content="Want To Make" />
+                <Button.Or />
+                <Button positive content="Made" />
+              </Button.Group>
+              <Segment compact>
+                Rating:{" "}
+                <Rating
+                  icon="star"
+                  defaultRating={this.state.rating}
+                  maxRating={5}
+                  onRate={this.handleRating}
+                />
+              </Segment>
+            </div>
+          )}
+        </Grid.Column>
+      </Grid>
     );
   }
 }

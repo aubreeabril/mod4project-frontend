@@ -148,6 +148,45 @@ class App extends Component {
       .then(json => this.currentUserRecipes());
   };
 
+  changeStatus = userRecipe => {
+    const token = localStorage.getItem("token");
+    let status = "made";
+    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        status: status
+      })
+    })
+      .then(r => r.json())
+      .then(json => {
+        console.log(json);
+        this.currentUserRecipes();
+      });
+  };
+
+  changeRating = (userRecipe, rating) => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        rating: rating
+      })
+    })
+      .then(r => r.json())
+      .then(json => {
+        console.log(json);
+        this.currentUserRecipes();
+      });
+  };
+
   addNewRecipe = newRecipe => {
     const token = localStorage.getItem("token");
     fetch(`http://localhost:3000/recipes`, {
@@ -242,6 +281,8 @@ class App extends Component {
                 addNote={this.addNote}
                 addFavorite={this.addFavorite}
                 userRecipes={this.state.userRecipes}
+                changeStatus={this.changeStatus}
+                changeRating={this.changeRating}
               />
             );
           }}

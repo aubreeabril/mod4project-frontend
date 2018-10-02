@@ -56,7 +56,8 @@ class App extends Component {
     this.props.history.push("/recipes");
   };
 
-  addFavorite = recipe => {
+  addFavorite = (recipe, category) => {
+    console.log(category);
     const token = localStorage.getItem("token");
     fetch(`http://localhost:3000/user_recipes`, {
       method: "POST",
@@ -67,7 +68,8 @@ class App extends Component {
       },
       body: JSON.stringify({
         recipe_id: recipe.id,
-        user_id: this.state.userInfo.id
+        user_id: this.state.userInfo.id,
+        category: category
       })
     })
       .then(r => r.json())

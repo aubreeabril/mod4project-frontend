@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "semantic-ui-react";
+import { Card, Container } from "semantic-ui-react";
 import RecipeCard from "./RecipeCard";
 
 class MyCookbook extends React.Component {
@@ -11,14 +11,14 @@ class MyCookbook extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Container>
         <h1>My CookBook</h1>
         <Card.Group>
           {this.getRecipes().map(recipe => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
         </Card.Group>
-      </React.Fragment>
+      </Container>
     );
   }
 }

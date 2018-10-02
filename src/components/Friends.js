@@ -1,5 +1,5 @@
 import React from "react";
-import { Search } from "semantic-ui-react";
+// import { Search } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class Friends extends React.Component {

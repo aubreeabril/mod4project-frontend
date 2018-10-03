@@ -28,7 +28,7 @@ class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(`http://localhost:3000/profile`, {
+      fetch(`https://cookbook-app-api.herokuapp.com/profile`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -38,7 +38,7 @@ class App extends Component {
           this.updateUserInfo(json.user);
         });
     }
-    fetch(`http://localhost:3000/recipes`)
+    fetch(`https://cookbook-app-api.herokuapp.com/recipes`)
       .then(r => r.json())
       .then(json => {
         this.setState({
@@ -59,7 +59,7 @@ class App extends Component {
   addFavorite = (recipe, category) => {
     console.log(category);
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/user_recipes`, {
+    fetch(`https://cookbook-app-api.herokuapp.com/user_recipes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,12 +84,15 @@ class App extends Component {
     );
 
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`
+    fetch(
+      `https://cookbook-app-api.herokuapp.com/user_recipes/${userRecipe.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
       .then(r => r.json())
       .then(json => {
         this.currentUserRecipes();
@@ -99,7 +102,7 @@ class App extends Component {
 
   currentUserRecipes = () => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/user_recipes`, {
+    fetch(`https://cookbook-app-api.herokuapp.com/user_recipes`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -118,7 +121,7 @@ class App extends Component {
 
   getAllUsers = () => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/users`, {
+    fetch(`https://cookbook-app-api.herokuapp.com/users`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -134,16 +137,19 @@ class App extends Component {
       ur => ur.recipe_id === recipe.id
     );
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        note: noteInput
-      })
-    })
+    fetch(
+      `https://cookbook-app-api.herokuapp.com/user_recipes/${userRecipe.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          note: noteInput
+        })
+      }
+    )
       .then(r => r.json())
       .then(json => this.currentUserRecipes());
   };
@@ -151,16 +157,19 @@ class App extends Component {
   changeStatus = userRecipe => {
     const token = localStorage.getItem("token");
     let status = "made";
-    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        status: status
-      })
-    })
+    fetch(
+      `https://cookbook-app-api.herokuapp.com/user_recipes/${userRecipe.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          status: status
+        })
+      }
+    )
       .then(r => r.json())
       .then(json => {
         console.log(json);
@@ -170,16 +179,19 @@ class App extends Component {
 
   changeRating = (userRecipe, rating) => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/user_recipes/${userRecipe.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        rating: rating
-      })
-    })
+    fetch(
+      `https://cookbook-app-api.herokuapp.com/user_recipes/${userRecipe.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          rating: rating
+        })
+      }
+    )
       .then(r => r.json())
       .then(json => {
         console.log(json);
@@ -189,7 +201,7 @@ class App extends Component {
 
   addNewRecipe = newRecipe => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/recipes`, {
+    fetch(`https://cookbook-app-api.herokuapp.com/recipes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ class SignUp extends React.Component {
   };
 
   handleSubmit = () => {
-    const url = "http://localhost:3000/users";
+    const url = "https://cookbook-app-api.herokuapp.com/users";
     const params = {
       username: this.state.username,
       password: this.state.password

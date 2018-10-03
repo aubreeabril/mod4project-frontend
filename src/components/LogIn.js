@@ -15,7 +15,7 @@ class LogIn extends React.Component {
   };
 
   handleSubmit = () => {
-    const url = "http://localhost:3000/login";
+    const url = "https://cookbook-app-api.herokuapp.com/login";
     const params = {
       username: this.state.username,
       password: this.state.password

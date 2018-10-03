@@ -41,7 +41,7 @@ class Recipe extends React.Component {
 
     return (
       <Container padded="true">
-        <Segment attached="top">
+        <Segment attached="left">
           <Segment clearing secondary>
             <Segment floated="right">
               {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
@@ -107,7 +107,7 @@ class Recipe extends React.Component {
             ))}
           </ul>
         </Segment>
-        <Segment attached="bottom">
+        <Segment attached="right">
           {userRecipes.map(ur => ur.recipe_id).includes(recipe.id) ? (
             <Note
               recipe={recipe}

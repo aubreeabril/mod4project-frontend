@@ -72,65 +72,71 @@ class Note extends React.Component {
     );
 
     return (
-      <Grid columns={2} divided>
-        {userRecipe.note ? (
-          <Grid.Column>
-            <h3>Note</h3>
-            <p>{userRecipe.note}</p>
-            <Modal
-              trigger={<Button onClick={this.handleOpenEdit}>Edit Note</Button>}
-              open={this.state.editModalOpen}
-              onClose={this.handleCloseEdit}
-            >
-              <Header content={`Edit note for ${this.props.recipe.title}`} />
-              <Form>
-                <Form.Field>
-                  <textarea
-                    value={this.state.noteInput}
-                    onChange={this.handleChange}
-                  />
-                </Form.Field>
-              </Form>
-              <Modal.Actions>
-                <Button basic color="green" onClick={this.handleEditClick}>
-                  <Icon name="save" />
-                  Save
-                </Button>
-              </Modal.Actions>
-            </Modal>
-          </Grid.Column>
-        ) : (
-          <Modal
-            trigger={<Button onClick={this.handleOpen}>Add note</Button>}
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-          >
-            <Header content={`Add note to ${this.props.recipe.title}`} />
-            <Form>
-              <Form.Field>
-                <textarea placeholder="Note" onChange={this.handleChange} />
-              </Form.Field>
-            </Form>
-            <Modal.Actions>
-              <Button basic color="green" onClick={this.handleClick}>
-                <Icon name="save" />
-                Save
-              </Button>
-            </Modal.Actions>
-          </Modal>
-        )}
-        <Grid.Column>
-          {this.props.userRecipe.status === "want_to_make" ? (
-            <Button.Group>
-              <Button positive content="Want To Make" />
-              <Button.Or />
-              <Button
-                content="Made"
-                onClick={() => this.props.changeStatus(this.props.userRecipe)}
-              />
-            </Button.Group>
+      <Grid divided>
+        <Grid.Row>
+          {userRecipe.note ? (
+            <Grid.Column width={8}>
+              <h3>Note</h3>
+              <p>{userRecipe.note}</p>
+              <Modal
+                trigger={
+                  <Button onClick={this.handleOpenEdit}>Edit Note</Button>
+                }
+                open={this.state.editModalOpen}
+                onClose={this.handleCloseEdit}
+              >
+                <Header content={`Edit note for ${this.props.recipe.title}`} />
+                <Form>
+                  <Form.Field>
+                    <textarea
+                      value={this.state.noteInput}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Field>
+                </Form>
+                <Modal.Actions>
+                  <Button basic color="green" onClick={this.handleEditClick}>
+                    <Icon name="save" />
+                    Save
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            </Grid.Column>
           ) : (
-            <div>
+            <Grid.Column width={8}>
+              <Modal
+                trigger={<Button onClick={this.handleOpen}>Add note</Button>}
+                open={this.state.modalOpen}
+                onClose={this.handleClose}
+              >
+                <Header content={`Add note to ${this.props.recipe.title}`} />
+                <Form>
+                  <Form.Field>
+                    <textarea placeholder="Note" onChange={this.handleChange} />
+                  </Form.Field>
+                </Form>
+                <Modal.Actions>
+                  <Button basic color="green" onClick={this.handleClick}>
+                    <Icon name="save" />
+                    Save
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            </Grid.Column>
+          )}
+          {this.props.userRecipe.status === "want_to_make" ? (
+            <Grid.Column width={8}>
+              <Button.Group>
+                <Button positive content="Want To Make" />
+                <Button.Or />
+                <Button
+                  content="Made"
+                  onClick={() => this.props.changeStatus(this.props.userRecipe)}
+                />
+              </Button.Group>
+            </Grid.Column>
+          ) : (
+            <Grid.Column width={8}>
               <Button.Group>
                 <Button disabled content="Want To Make" />
                 <Button.Or />
@@ -145,9 +151,9 @@ class Note extends React.Component {
                   onRate={this.handleRating}
                 />
               </Segment>
-            </div>
+            </Grid.Column>
           )}
-        </Grid.Column>
+        </Grid.Row>
       </Grid>
     );
   }

@@ -10,6 +10,10 @@ import {
   Segment
 } from "semantic-ui-react";
 
+const right = {
+  float: "right"
+};
+
 class Note extends React.Component {
   state = {
     noteInput: "",
@@ -142,15 +146,17 @@ class Note extends React.Component {
                 <Button.Or />
                 <Button positive content="Made" />
               </Button.Group>
-              <Segment compact>
-                Rating:{" "}
-                <Rating
-                  icon="star"
-                  defaultRating={this.state.rating}
-                  maxRating={5}
-                  onRate={this.handleRating}
-                />
-              </Segment>
+              <span style={right}>
+                <Segment compact>
+                  Rating:{" "}
+                  <Rating
+                    icon="star"
+                    defaultRating={this.state.rating}
+                    maxRating={5}
+                    onRate={this.handleRating}
+                  />
+                </Segment>
+              </span>
             </Grid.Column>
           )}
         </Grid.Row>

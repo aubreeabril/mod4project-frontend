@@ -227,6 +227,7 @@ class App extends Component {
           logout={this.logout}
           userInfo={this.state.userInfo}
         />
+
         <Route exact path="/" component={Home} />
         <Route
           exact

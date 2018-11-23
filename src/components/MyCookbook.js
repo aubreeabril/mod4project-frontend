@@ -18,6 +18,7 @@ class MyCookbook extends React.Component {
 
   getRecipes = () => {
     let userRecipes;
+    let matchingRecipe;
     if (this.state.category) {
       userRecipes = this.props.currentUserRecipes.filter(
         ur => ur.category === this.state.category
@@ -26,7 +27,8 @@ class MyCookbook extends React.Component {
       userRecipes = this.props.currentUserRecipes;
     }
     return userRecipes.map(ur => {
-      let matchingRecipe = this.props.allRecipes.find(
+      debugger;
+      matchingRecipe = this.props.allRecipes.find(
         recipe => ur.recipe_id === recipe.id
       );
       matchingRecipe["category"] = ur.category;
@@ -46,7 +48,7 @@ class MyCookbook extends React.Component {
     return (
       <Container>
         <Button
-          color="gray"
+          color="grey"
           value={null}
           content="Reset"
           style={right}
